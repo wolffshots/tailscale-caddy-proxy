@@ -7,6 +7,7 @@ FROM tailscale/tailscale:$TAILSCALE_VERSION
 LABEL maintainer="hollie@lika.be"
 
 ENV CADDY_TARGET=
+ENV CADDY_RESUME=false
 ENV TS_TAILNET=
 ENV TS_HOSTNAME=
 ENV TS_EXTRA_FLAGS=

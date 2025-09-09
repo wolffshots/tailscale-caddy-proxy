@@ -4,6 +4,7 @@ networks:
 
 volumes:
   tailscale-whoami-state:
+  caddy-whoami-config:
 
 services:
 
@@ -16,10 +17,12 @@ services:
     image: hollie/tailscale-caddy-proxy:latest
     volumes:
       - tailscale-whoami-state:/var/lib/tailscale # Persist the tailscale state directory
+      - caddy-whoami-config:/root/.config/caddy   # Persist caddy autosave config
     environment:
       - TS_HOSTNAME=tailscale-example 	# Hostname you want this instance to have on the tailscale network
       - TS_TAILNET=tailnet-XXXX         # Your tailnet name without the .ts.net suffix!
       - CADDY_TARGET=whoami:80		# Target service and port
+      - CADDY_RESUME=false              # Set to true to resume from autosave instead of Caddyfile
 #      - TS_EXTRA_ARGS=--accept-dns      # Optional extra arguments to pass when starting tailscale
 #      - SKIP_CADDYFILE_GENERATION=1     # Set this if you want to be able to override /etc/caddy/Caddyfile via a volume mapping      
     restart: on-failure

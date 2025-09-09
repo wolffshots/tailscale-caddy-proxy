@@ -14,7 +14,13 @@ else
 fi
 
 echo "Starting Caddy"
-caddy start --config /etc/caddy/Caddyfile
+if [ "$CADDY_RESUME" = "true" ]; then
+   echo "Starting Caddy with --resume flag"
+   caddy start --resume
+else
+   echo "Starting Caddy with config file"
+   caddy start --config /etc/caddy/Caddyfile
+fi
 
 echo "Starting Tailscale"
 

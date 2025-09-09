@@ -47,7 +47,11 @@ The docker image takes as input parameters:
 
 * `CADDY_TARGET`: the name and port of the service you want to connect to.
 
+* `CADDY_RESUME`: when set to `true`, Caddy will start with the `--resume` flag to load from the autosave configuration instead of the Caddyfile. Defaults to `false`.
+
 You also want to declare a permanent volume to store the Tailscale credentials so that those survive a rebuild of the container. The Tailscale configuration is located in the folder `/var/lib/tailscale` in the container.
+
+For the `CADDY_RESUME` functionality, you should also declare a volume for `/root/.config/caddy` to persist Caddy's autosave configuration file.
 
 # Practical use
 
@@ -66,6 +70,7 @@ networks:
 
 volumes:
   tailscale-whoami-state:
+  caddy-whoami-config:
 
 services:
 
@@ -78,10 +83,12 @@ services:
     image: hollie/tailscale-caddy-proxy:latest
     volumes:
       - tailscale-whoami-state:/var/lib/tailscale # Persist tailscale state
+      - caddy-whoami-config:/root/.config/caddy   # Persist caddy autosave config
     environment:
       - TS_HOSTNAME=tailscale-example # Hostname on the tailscale network
       - TS_TAILNET=tailnet-XXXX       # Your tailnet name without the .ts.net suffix!
       - CADDY_TARGET=whoami:80        # Target service and port
+      - CADDY_RESUME=false            # Set to true to resume from autosave instead of Caddyfile
 #      - TS_EXTRA_ARGS=<optional extra arguments> # When starting tailscale in the container, e.g. to allow exit node or override the DNS settings. 
     restart: on-failure
     init: true
