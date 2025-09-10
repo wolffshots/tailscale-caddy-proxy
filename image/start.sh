@@ -16,7 +16,7 @@ fi
 echo "Starting Caddy"
 if [ "$CADDY_RESUME" = "true" ]; then
    echo "Starting Caddy with --resume flag"
-   caddy start --resume
+   caddy run --environ --resume > /proc/1/fd/1 2> /proc/1/fd/2 &
 else
    echo "Starting Caddy with config file"
    caddy start --config /etc/caddy/Caddyfile
