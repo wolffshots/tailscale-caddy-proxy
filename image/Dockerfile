@@ -6,6 +6,11 @@ FROM tailscale/tailscale:$TAILSCALE_VERSION
 
 LABEL maintainer="hollie@lika.be"
 
+# Labels for Github container registry
+LABEL org.opencontainers.image.source="https://github.com/wolffshots/tailscale-caddy-proxy" \
+    org.opencontainers.image.documentation="https://github.com/wolffshots/tailscale-caddy-proxy/blob/$commit/README.md" \
+    org.opencontainers.image.title="tailscale-caddy-proxy"
+
 ENV CADDY_TARGET=
 ENV CADDY_RESUME=false
 ENV TS_TAILNET=
