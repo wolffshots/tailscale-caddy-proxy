@@ -84,6 +84,7 @@ services:
     volumes:
       - tailscale-whoami-state:/var/lib/tailscale # Persist tailscale state
       - caddy-whoami-config:/root/.config/caddy   # Persist caddy autosave config
+      - ./caddy:/etc/caddy                        # Persist caddyfile
     environment:
       - TS_HOSTNAME=tailscale-example # Hostname on the tailscale network
       - TS_TAILNET=tailnet-XXXX       # Your tailnet name without the .ts.net suffix!
